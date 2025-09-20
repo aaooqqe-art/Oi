@@ -56,4 +56,41 @@
         <option>مصرف الشارقة الإسلامي</option>
         <option>بنك عجمان</option>
         <option>مصرف الهلال</option>
-        <option>بنك رأس الخيمة الوطني</
+        <option>بنك رأس الخيمة الوطني</option>
+        <option>بنك الفجيرة الوطني</option>
+        <option>البنك العربي المتحد</option>
+        <option>بنك أم القيوين الوطني</option>
+        <option>بنك الشارقة</option>
+        <option>البنك التجاري الدولي</option>
+        <option>HSBC الإمارات</option>
+        <option>ستاندرد تشارترد</option>
+        <option>سيتي بنك</option>
+        <option>الإمارات الإسلامي</option>
+        <option>ليف LIV</option>
+        <option>المارية المحلي</option>
+        <option>Wio Bank</option>
+      </select>
+
+      <label for="amount">قيمة رسوم السداد (درهم إماراتي) *</label>
+      <input id="amount" type="number" min="1" step="0.01" placeholder="مثال: 1.00" required>
+
+      <label for="invoiceNumber">رقم المفوتر (6 أرقام فقط) *</label>
+      <input id="invoiceNumber" type="text" maxlength="6" pattern="^\d{6}$" title="رقم المفوتر يجب أن يتكون من 6 أرقام فقط" required>
+
+      <button type="submit">إرسال</button>
+    </form>
+  </main>
+
+  <footer>
+    سياسة الخصوصية • حقوق النشر • شروط الاستخدام • معايير WCAG 2.0 AAA • © حكومة الإمارات 2025
+  </footer>
+
+  <script>
+    document.getElementById('mainForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      // هنا يمكنك لاحقًا ربط صفحة الدفع الفعلية أو إشعار السيرفر
+      alert('تم التحقق من البيانات (نموذج تجريبي)');
+    });
+  </script>
+</body>
+</html>
