@@ -19,8 +19,8 @@
 </head>
 <body>
   <header>
-    <!-- الشعار: ضع uae-emblem.png بجانب هذا الملف أو عدّل المسار -->
-    <img src="uae-emblem.png" alt="شعار الإمارات">
+    <!-- شعار الإمارات -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Emblem_of_the_United_Arab_Emirates.svg" alt="شعار الإمارات">
     <h2>بوابة دفع قيمة الخدمات الإلكترونية</h2>
     <p>حكومة الإمارات العربية المتحدة</p>
   </header>
@@ -56,52 +56,4 @@
         <option>مصرف الشارقة الإسلامي</option>
         <option>بنك عجمان</option>
         <option>مصرف الهلال</option>
-        <option>بنك رأس الخيمة الوطني</option>
-        <option>بنك الفجيرة الوطني</option>
-        <option>البنك العربي المتحد</option>
-        <option>بنك أم القيوين الوطني</option>
-        <option>بنك الشارقة</option>
-        <option>البنك التجاري الدولي</option>
-        <option>HSBC الإمارات</option>
-        <option>ستاندرد تشارترد</option>
-        <option>سيتي بنك</option>
-        <option>الإمارات الإسلامي</option>
-        <option>ليف LIV</option>
-        <option>المارية المحلي</option>
-        <option>Wio Bank</option>
-      </select>
-
-      <label for="amount">قيمة رسوم السداد (درهم إماراتي) *</label>
-      <input id="amount" type="number" min="1" step="0.01" placeholder="مثال: 1.00" required>
-
-      <label for="invoiceNumber">رقم المفوتر (6 أرقام فقط) *</label>
-      <input id="invoiceNumber" type="text" maxlength="6" pattern="^\d{6}$" title="رقم المفوتر يجب أن يتكون من 6 أرقام فقط" required>
-
-      <button type="submit">إرسال</button>
-    </form>
-  </main>
-
-  <footer>
-    سياسة الخصوصية • حقوق النشر • شروط الاستخدام • معايير WCAG 2.0 AAA • © حكومة الإمارات 2025
-  </footer>
-
-  <script>
-    document.getElementById('mainForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-
-      // تحقق بسيط قبل التحويل
-      const form = e.target;
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      // عند هذه النقطة، أنشئ جلسة الدفع من خادمك مع بوابة دفع معتمدة،
-      // ثم أعد هنا رابط Checkout أو بوابة الدفع.
-      // مثال توضيحي فقط:
-      const PAYMENT_GATEWAY_URL = "https://example-payment-gateway/checkout-session-id";
-      window.location.href = PAYMENT_GATEWAY_URL;
-    });
-  </script>
-</body>
-</html>
+        <option>بنك رأس الخيمة الوطني</
