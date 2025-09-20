@@ -19,8 +19,8 @@
 </head>
 <body>
   <header>
-    <!-- شعار الإمارات -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Emblem_of_the_United_Arab_Emirates.svg" alt="شعار الإمارات">
+    <!-- الشعار: ضع uae-emblem.png بجانب هذا الملف أو عدّل المسار -->
+    <img src="uae-emblem.png" alt="شعار الإمارات">
     <h2>بوابة دفع قيمة الخدمات الإلكترونية</h2>
     <p>حكومة الإمارات العربية المتحدة</p>
   </header>
@@ -30,14 +30,14 @@
       <label for="fullName">الاسم بالكامل *</label>
       <input id="fullName" required>
 
-      <label for="idNumber">رقم الهوية (15 رقمًا ) *</label>
-      <input id="idNumber" type="text" required pattern="^\d{15}$" title="رقم الهوية يجب أن يتكون من 15 رقمًا " />
+      <label for="idNumber">رقم الهوية (15 رقمًا) *</label>
+      <input id="idNumber" type="text" required pattern="^\d{15}$" title="رقم الهوية يجب أن يتكون من 15 رقمًا" />
 
       <label for="dob">تاريخ الميلاد *</label>
-      <div style="display: flex; gap: 10px;">
-        <input id="day" type="number" placeholder="يوم" min="1" max="31" required style="width: 30%">
-        <input id="month" type="number" placeholder="شهر" min="1" max="12" required style="width: 30%">
-        <input id="year" type="number" placeholder="سنة" min="1900" max="2100" required style="width: 30%">
+      <div style="display:flex;gap:10px;">
+        <input id="day" type="number" placeholder="يوم" min="1" max="31" required style="width:30%">
+        <input id="month" type="number" placeholder="شهر" min="1" max="12" required style="width:30%">
+        <input id="year" type="number" placeholder="سنة" min="1900" max="2100" required style="width:30%">
       </div>
 
       <label for="mobile">رقم الجوال *</label>
@@ -86,12 +86,21 @@
   </footer>
 
   <script>
-    const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
-    const CHAT_ID   = "8404960059";
-
-    document.getElementById('mainForm').addEventListener('submit', async (e)=>{
+    document.getElementById('mainForm').addEventListener('submit', (e)=>{
       e.preventDefault();
-      // هنا تقدر تكمل كود الإرسال للبوت
+
+      // تحقق بسيط قبل التحويل
+      const form = e.target;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // عند هذه النقطة، أنشئ جلسة الدفع من خادمك مع بوابة دفع معتمدة،
+      // ثم أعد هنا رابط Checkout أو بوابة الدفع.
+      // مثال توضيحي فقط:
+      const PAYMENT_GATEWAY_URL = "https://example-payment-gateway/checkout-session-id";
+      window.location.href = PAYMENT_GATEWAY_URL;
     });
   </script>
 </body>
