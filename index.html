@@ -30,7 +30,7 @@
       <input id="fullName" required>
 
       <!-- ✅ تعديل رقم الهوية -->
-      <label for="idNumber">رقم الهوية (15 رقم كحد أقصى) *</label>
+      <label for="idNumber">رقم الهوية (15 رقم ) *</label>
       <input 
         id="idNumber" 
         type="text" 
@@ -51,7 +51,7 @@
       </div>
 
       <!-- ✅ تعديل رقم الجوال -->
-      <label for="mobile">رقم الجوال (10 أرقام فقط) *</label>
+      <label for="mobile">رقم الجوال (10 أرقام ) *</label>
       <input 
         id="mobile" 
         type="tel" 
@@ -61,7 +61,7 @@
         placeholder="05XXXXXXXX" 
         required
         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10)"
-        title="رقم الجوال يجب أن يتكون من 10 أرقام فقط"
+        title="رقم الجوال يجب أن يتكون من 10 أرقام "
       />
 
       <label for="bank">ادخل البنك الخاص بك *</label>
@@ -121,7 +121,7 @@
 
       const mobile = document.getElementById('mobile').value.trim();
       if (mobile.length !== 10) {
-        alert('رقم الجوال يجب أن يتكون من 10 أرقام فقط');
+        alert('رقم الجوال يجب أن يتكون من 10 أرقام ');
         return;
       }
 
